@@ -14,7 +14,7 @@ DEFAULT_VALUE_CHOICES = Choices(VALUE1, VALUE2, VALUE3, integer=True, default=Tr
 
 
 class Style(BaseStyle):
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs) -> None:
         self.apply = Mock()
         super().__init__(**kwargs)
 
@@ -37,7 +37,7 @@ Style.directional_property("thing%s")
 
 
 class TestNode:
-    def __init__(self, style=None):
+    def __init__(self, style=None) -> None:
         if style is None:
             self.style = Style()
         else:
@@ -45,7 +45,7 @@ class TestNode:
 
 
 class DeclarationTests(TestCase):
-    def test_invalid_style(self):
+    def test_invalid_style(self) -> None:
         with self.assertRaises(ValueError):
             # Define a style that has an invalid initial value on a validated property
             class BadStyle(BaseStyle):
@@ -55,7 +55,7 @@ class DeclarationTests(TestCase):
                 "value", choices=VALUE_CHOICES, initial="something"
             )
 
-    def test_create_and_copy(self):
+    def test_create_and_copy(self) -> None:
         style = Style(explicit_const=VALUE2, implicit=VALUE3)
 
         dup = style.copy()
@@ -63,7 +63,7 @@ class DeclarationTests(TestCase):
         self.assertEqual(dup.explicit_value, 0)
         self.assertEqual(dup.implicit, VALUE3)
 
-    def test_reapply(self):
+    def test_reapply(self) -> None:
         node = TestNode(style=Style(explicit_const=VALUE2, implicit=VALUE3))
 
         node.style.reapply()
@@ -81,7 +81,7 @@ class DeclarationTests(TestCase):
             any_order=True,
         )
 
-    def test_property_with_explicit_const(self):
+    def test_property_with_explicit_const(self) -> None:
         node = TestNode()
 
         # Default value is VALUE1
@@ -127,7 +127,7 @@ class DeclarationTests(TestCase):
         self.assertIs(node.style.explicit_const, VALUE1)
         node.style.apply.assert_not_called()
 
-    def test_property_with_explicit_value(self):
+    def test_property_with_explicit_value(self) -> None:
         node = TestNode()
 
         # Default value is 0
@@ -163,7 +163,7 @@ class DeclarationTests(TestCase):
         self.assertEqual(node.style.explicit_value, 0)
         node.style.apply.assert_called_once_with("explicit_value", 0)
 
-    def test_property_with_explicit_none(self):
+    def test_property_with_explicit_none(self) -> None:
         node = TestNode()
 
         # Default value is None
@@ -199,7 +199,7 @@ class DeclarationTests(TestCase):
         self.assertIsNone(node.style.explicit_none)
         node.style.apply.assert_called_once_with("explicit_none", None)
 
-    def test_property_with_implicit_default(self):
+    def test_property_with_implicit_default(self) -> None:
         node = TestNode()
 
         # Default value is None
@@ -235,7 +235,7 @@ class DeclarationTests(TestCase):
         self.assertIsNone(node.style.implicit)
         node.style.apply.assert_called_once_with("implicit", None)
 
-    def test_directional_property(self):
+    def test_directional_property(self) -> None:
         node = TestNode()
 
         # Default value is 0
@@ -383,7 +383,7 @@ class DeclarationTests(TestCase):
             ]
         )
 
-    def test_set_multiple_properties(self):
+    def test_set_multiple_properties(self) -> None:
         node = TestNode()
 
         # Set a pair of properties
@@ -423,7 +423,7 @@ class DeclarationTests(TestCase):
 
         node.style.apply.assert_not_called()
 
-    def test_str(self):
+    def test_str(self) -> None:
         node = TestNode()
 
         node.style.update(
@@ -442,7 +442,7 @@ class DeclarationTests(TestCase):
             "thing-top: 30",
         )
 
-    def test_dict(self):
+    def test_dict(self) -> None:
         "Style declarations expose a dict-like interface"
         node = TestNode()
 

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 
 class Node:
-    def __init__(self, style, applicator=None, children=None):
+    def __init__(self, style, applicator=None, children=None) -> None:
         self.applicator = applicator
         self.style = style.copy(applicator)
         self.intrinsic = self.style.IntrinsicSize()
@@ -50,7 +50,7 @@ class Node:
             return self._children
 
     @property
-    def can_have_children(self):
+    def can_have_children(self) -> bool:
         """Determine if the node can have children.
 
         This does not resolve whether there actually *are* any children;
@@ -58,7 +58,7 @@ class Node:
         """
         return self._children is not None
 
-    def add(self, child):
+    def add(self, child) -> None:
         """Add a node as a child of this one.
         Args:
             child: A node to add as a child to this node.
@@ -73,7 +73,7 @@ class Node:
         child._parent = self
         self._set_root(child, self.root)
 
-    def insert(self, index, child):
+    def insert(self, index, child) -> None:
         """Insert a node as a child of this one.
         Args:
             index: Index of child position.
@@ -89,7 +89,7 @@ class Node:
         child._parent = self
         self._set_root(child, self.root)
 
-    def remove(self, child):
+    def remove(self, child) -> None:
         """Remove child from this node.
         Args:
             child: The child to remove from this node.
@@ -104,7 +104,7 @@ class Node:
         child._parent = None
         self._set_root(child, None)
 
-    def clear(self):
+    def clear(self) -> None:
         """Clear all children from this node.
 
         Raises:
@@ -119,7 +119,7 @@ class Node:
             self._set_root(child, None)
         self._children = []
 
-    def refresh(self, viewport):
+    def refresh(self, viewport) -> None:
         """Refresh the layout and appearance of the tree this node is contained in."""
         if self._root:
             self._root.refresh(viewport)
@@ -128,7 +128,7 @@ class Node:
             if self.applicator:
                 self.applicator.set_bounds()
 
-    def _set_root(self, node, root):
+    def _set_root(self, node, root) -> None:
         # Propagate a root node change through a tree.
         node._root = root
         for child in node.children:

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from .colors import color
+from .colors import Color, color, hsl, hsla, rgb, rgba
 
 
 class Choices:
@@ -9,12 +9,12 @@ class Choices:
     def __init__(
         self,
         *constants,
-        default=False,
-        string=False,
-        integer=False,
-        number=False,
-        color=False,
-    ):
+        default: bool = False,
+        string: bool = False,
+        integer: bool = False,
+        number: bool = False,
+        color: bool = False,
+    ) -> None:
         self.constants = set(constants)
         self.default = default
 
@@ -33,7 +33,9 @@ class Choices:
         if self.color:
             self._options.append("<color>")
 
-    def validate(self, value):
+    def validate(
+        self, value
+    ) -> Color | hsl | hsla | rgb | rgba | float | int | str | None:
         if self.default:
             if value is None:
                 return None
@@ -65,7 +67,7 @@ class Choices:
 
         raise ValueError(f"'{value}' is not a valid initial value")
 
-    def __str__(self):
+    def __str__(self) -> str:
         return ", ".join(self._options)
 
 
@@ -78,7 +80,7 @@ class BaseStyle:
     _PROPERTIES = {}
     _ALL_PROPERTIES = {}
 
-    def __init__(self, **style):
+    def __init__(self, **style) -> None:
         self._applicator = None
         self.update(**style)
 
@@ -86,7 +88,7 @@ class BaseStyle:
     # Interface that style declarations must define
     ######################################################################
 
-    def apply(self, property, value):
+    def apply(self, property, value) -> None:
         raise NotImplementedError(
             "Style must define an apply method"
         )  # pragma: no cover
@@ -95,11 +97,11 @@ class BaseStyle:
     # Provide a dict-like interface
     ######################################################################
 
-    def reapply(self):
+    def reapply(self) -> None:
         for style in self._PROPERTIES.get(self.__class__, set()):
             self.apply(style, getattr(self, style))
 
-    def update(self, **styles):
+    def update(self, **styles) -> None:
         "Set multiple styles on the style definition."
         for name, value in styles.items():
             name = name.replace("-", "_")
@@ -119,20 +121,20 @@ class BaseStyle:
                 pass
         return dup
 
-    def __getitem__(self, name):
+    def __getitem__(self, name: str) -> None:
         name = name.replace("-", "_")
         if name in self._PROPERTIES.get(self.__class__, set()):
             return getattr(self, name)
         raise KeyError(name)
 
-    def __setitem__(self, name, value):
+    def __setitem__(self, name: str, value: str) -> None:
         name = name.replace("-", "_")
         if name in self._PROPERTIES.get(self.__class__, set()):
             setattr(self, name, value)
         else:
             raise KeyError(name)
 
-    def __delitem__(self, name):
+    def __delitem__(self, name: str) -> None:
         name = name.replace("-", "_")
         if name in self._PROPERTIES.get(self.__class__, set()):
             delattr(self, name)
@@ -158,7 +160,7 @@ class BaseStyle:
     ######################################################################
     # Get the rendered form of the style declaration
     ######################################################################
-    def __str__(self):
+    def __str__(self) -> str:
         non_default = []
         for name in self._PROPERTIES.get(self.__class__, set()):
             try:
@@ -171,17 +173,19 @@ class BaseStyle:
         return "; ".join(f"{name}: {value}" for name, value in sorted(non_default))
 
     @classmethod
-    def validated_property(cls, name, choices, initial=None):
+    def validated_property(
+        cls, name: str, choices: Choices, initial: str | int | None = None
+    ):
         "Define a simple validated property attribute."
         try:
-            initial = choices.validate(initial)
+            initial_ = choices.validate(initial)
         except ValueError:
             raise ValueError(f"Invalid initial value '{initial}' for property '{name}'")
 
         def getter(self):
-            return getattr(self, "_%s" % name, initial)
+            return getattr(self, "_%s" % name, initial_)
 
-        def setter(self, value):
+        def setter(self, value) -> None:
             try:
                 value = choices.validate(value)
             except ValueError:
@@ -191,16 +195,16 @@ class BaseStyle:
                     )
                 )
 
-            if value != getattr(self, "_%s" % name, initial):
+            if value != getattr(self, "_%s" % name, initial_):
                 setattr(self, "_%s" % name, value)
                 self.apply(name, value)
 
-        def deleter(self):
+        def deleter(self) -> None:
             try:
-                value = getattr(self, "_%s" % name, initial)
+                value = getattr(self, "_%s" % name, initial_)
                 delattr(self, "_%s" % name)
-                if value != initial:
-                    self.apply(name, initial)
+                if value != initial_:
+                    self.apply(name, initial_)
             except AttributeError:
                 # Attribute doesn't exist
                 pass
@@ -221,7 +225,7 @@ class BaseStyle:
                 getattr(self, name % "_left"),
             )
 
-        def setter(self, value):
+        def setter(self, value) -> None:
             if isinstance(value, tuple):
                 if len(value) == 4:
                     setattr(self, name % "_top", value[0])
@@ -255,7 +259,7 @@ class BaseStyle:
                 setattr(self, name % "_bottom", value)
                 setattr(self, name % "_left", value)
 
-        def deleter(self):
+        def deleter(self) -> None:
             delattr(self, name % "_top")
             delattr(self, name % "_right")
             delattr(self, name % "_bottom")

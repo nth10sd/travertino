@@ -9,15 +9,15 @@ from travertino.declaration import Choices, BaseStyle
 
 
 class PropertyChoiceTests(TestCase):
-    def assert_property(self, obj, value, check_mock=True):
+    def assert_property(self, obj, value, check_mock: bool = True) -> None:
         self.assertEqual(obj.prop, value)
         if check_mock:
             obj.apply.assert_called_once_with("prop", value)
             obj.apply.reset_mock()
 
-    def test_none(self):
+    def test_none(self) -> None:
         class MyObject(BaseStyle):
-            def __init__(self):
+            def __init__(self) -> None:
                 self.apply = Mock()
 
         MyObject.validated_property("prop", choices=Choices(None), initial=None)
@@ -59,9 +59,9 @@ class PropertyChoiceTests(TestCase):
                 "Invalid value 'invalid' for property 'prop'; Valid values are: none",
             )
 
-    def test_allow_string(self):
+    def test_allow_string(self) -> None:
         class MyObject(BaseStyle):
-            def __init__(self):
+            def __init__(self) -> None:
                 self.apply = Mock()
 
         MyObject.validated_property(
@@ -105,9 +105,9 @@ class PropertyChoiceTests(TestCase):
                 "Invalid value '99' for property 'prop'; Valid values are: <string>",
             )
 
-    def test_allow_integer(self):
+    def test_allow_integer(self) -> None:
         class MyObject(BaseStyle):
-            def __init__(self):
+            def __init__(self) -> None:
                 self.apply = Mock()
 
         MyObject.validated_property("prop", choices=Choices(integer=True), initial=0)
@@ -151,9 +151,9 @@ class PropertyChoiceTests(TestCase):
                 "Invalid value 'invalid' for property 'prop'; Valid values are: <integer>",
             )
 
-    def test_allow_number(self):
+    def test_allow_number(self) -> None:
         class MyObject(BaseStyle):
-            def __init__(self):
+            def __init__(self) -> None:
                 self.apply = Mock()
 
         MyObject.validated_property("prop", choices=Choices(number=True), initial=0)
@@ -195,9 +195,9 @@ class PropertyChoiceTests(TestCase):
                 "Invalid value 'invalid' for property 'prop'; Valid values are: <number>",
             )
 
-    def test_allow_color(self):
+    def test_allow_color(self) -> None:
         class MyObject(BaseStyle):
-            def __init__(self):
+            def __init__(self) -> None:
                 self.apply = Mock()
 
         MyObject.validated_property(
@@ -241,9 +241,9 @@ class PropertyChoiceTests(TestCase):
                 "Invalid value 'invalid' for property 'prop'; Valid values are: <color>",
             )
 
-    def test_values(self):
+    def test_values(self) -> None:
         class MyObject(BaseStyle):
-            def __init__(self):
+            def __init__(self) -> None:
                 self.apply = Mock()
 
         MyObject.validated_property(
@@ -287,9 +287,9 @@ class PropertyChoiceTests(TestCase):
                 "Invalid value 'invalid' for property 'prop'; Valid values are: a, b, none",
             )
 
-    def test_multiple_choices(self):
+    def test_multiple_choices(self) -> None:
         class MyObject(BaseStyle):
-            def __init__(self):
+            def __init__(self) -> None:
                 self.apply = Mock()
 
         MyObject.validated_property(
@@ -335,9 +335,9 @@ class PropertyChoiceTests(TestCase):
                 "Valid values are: a, b, none, <number>, <color>",
             )
 
-    def test_string_symbol(self):
+    def test_string_symbol(self) -> None:
         class MyObject(BaseStyle):
-            def __init__(self):
+            def __init__(self) -> None:
                 self.apply = Mock()
 
         MyObject.validated_property("prop", choices=Choices(TOP, None), initial=None)

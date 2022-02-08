@@ -14,19 +14,19 @@ from travertino.fonts import Font, font
 
 
 class FontTests(TestCase):
-    def assertFont(self, font, family, size, style, variant, weight):
+    def assertFont(self, font, family, size, style, variant, weight) -> None:
         self.assertEqual(font.family, family)
         self.assertEqual(font.size, size)
         self.assertEqual(font.style, style)
         self.assertEqual(font.variant, variant)
         self.assertEqual(font.weight, weight)
 
-    def test_equality(self):
+    def test_equality(self) -> None:
         self.assertEqual(
             Font("Comic Sans", "12 pt"), Font("Comic Sans", 12, NORMAL, NORMAL, NORMAL)
         )
 
-    def test_hash(self):
+    def test_hash(self) -> None:
         self.assertEqual(
             hash(Font("Comic Sans", 12)),
             hash(Font("Comic Sans", 12)),
@@ -37,7 +37,7 @@ class FontTests(TestCase):
             hash(Font("Comic Sans", 12)),
         )
 
-    def test_repr(self):
+    def test_repr(self) -> None:
         self.assertEqual(repr(Font("Comic Sans", 12)), "<Font: 12pt Comic Sans>")
 
         self.assertEqual(
@@ -79,7 +79,7 @@ class FontTests(TestCase):
             "<Font: italic system default size Comic Sans>",
         )
 
-    def test_simple_construction(self):
+    def test_simple_construction(self) -> None:
         # Simplest case
         self.assertFont(
             Font("Comic Sans", 12), "Comic Sans", 12, NORMAL, NORMAL, NORMAL
@@ -102,7 +102,7 @@ class FontTests(TestCase):
         with self.assertRaises(ValueError):
             Font("Comic Sans", "12 quatloos"),
 
-    def test_family(self):
+    def test_family(self) -> None:
         self.assertFont(
             Font("Comic Sans", 12), "Comic Sans", 12, NORMAL, NORMAL, NORMAL
         )
@@ -117,7 +117,7 @@ class FontTests(TestCase):
             Font('"Comic Sans"', 12), "Comic Sans", 12, NORMAL, NORMAL, NORMAL
         )
 
-    def test_style(self):
+    def test_style(self) -> None:
         self.assertFont(
             Font("Comic Sans", 12, style=ITALIC),
             "Comic Sans",
@@ -163,22 +163,22 @@ class FontTests(TestCase):
             NORMAL,
         )
 
-    def test_make_normal_style(self):
+    def test_make_normal_style(self) -> None:
         f = Font("Comic Sans", 12)
         self.assertFont(f.normal_style(), "Comic Sans", 12, NORMAL, NORMAL, NORMAL)
 
         f = Font("Comic Sans", 12, style=ITALIC)
         self.assertFont(f.normal_style(), "Comic Sans", 12, NORMAL, NORMAL, NORMAL)
 
-    def test_make_italic(self):
+    def test_make_italic(self) -> None:
         f = Font("Comic Sans", 12)
         self.assertFont(f.italic(), "Comic Sans", 12, ITALIC, NORMAL, NORMAL)
 
-    def test_make_oblique(self):
+    def test_make_oblique(self) -> None:
         f = Font("Comic Sans", 12)
         self.assertFont(f.oblique(), "Comic Sans", 12, OBLIQUE, NORMAL, NORMAL)
 
-    def test_variant(self):
+    def test_variant(self) -> None:
         self.assertFont(
             Font("Comic Sans", 12, variant=SMALL_CAPS),
             "Comic Sans",
@@ -206,18 +206,18 @@ class FontTests(TestCase):
             NORMAL,
         )
 
-    def test_make_normal_variant(self):
+    def test_make_normal_variant(self) -> None:
         f = Font("Comic Sans", 12)
         self.assertFont(f.normal_variant(), "Comic Sans", 12, NORMAL, NORMAL, NORMAL)
 
         f = Font("Comic Sans", 12, variant=SMALL_CAPS)
         self.assertFont(f.normal_variant(), "Comic Sans", 12, NORMAL, NORMAL, NORMAL)
 
-    def test_make_small_caps(self):
+    def test_make_small_caps(self) -> None:
         f = Font("Comic Sans", 12)
         self.assertFont(f.small_caps(), "Comic Sans", 12, NORMAL, SMALL_CAPS, NORMAL)
 
-    def test_weight(self):
+    def test_weight(self) -> None:
         self.assertFont(
             Font("Comic Sans", 12, weight=BOLD), "Comic Sans", 12, NORMAL, NORMAL, BOLD
         )
@@ -240,14 +240,14 @@ class FontTests(TestCase):
             NORMAL,
         )
 
-    def test_make_normal_weight(self):
+    def test_make_normal_weight(self) -> None:
         f = Font("Comic Sans", 12)
         self.assertFont(f.normal_weight(), "Comic Sans", 12, NORMAL, NORMAL, NORMAL)
 
         f = Font("Comic Sans", 12, weight=BOLD)
         self.assertFont(f.normal_weight(), "Comic Sans", 12, NORMAL, NORMAL, NORMAL)
 
-    def test_make_bold(self):
+    def test_make_bold(self) -> None:
         f = Font("Comic Sans", 12)
         self.assertFont(f.bold(), "Comic Sans", 12, NORMAL, NORMAL, BOLD)
 
@@ -260,7 +260,7 @@ class ParseFontTests(TestCase):
         self.assertEqual(font.variant, variant)
         self.assertEqual(font.weight, weight)
 
-    def test_font_instance(self):
+    def test_font_instance(self) -> None:
         f = Font("Comic Sans", 12)
 
         parsed = font(f)
@@ -268,7 +268,7 @@ class ParseFontTests(TestCase):
         self.assertEqual(f, parsed)
         self.assertIs(f, parsed)
 
-    def test_successful_combinations(self):
+    def test_successful_combinations(self) -> None:
         self.assertFont(
             font("12pt Comic Sans"), "Comic Sans", 12, NORMAL, NORMAL, NORMAL
         )
@@ -312,7 +312,7 @@ class ParseFontTests(TestCase):
             font("bold 12 pt Comic Sans"), "Comic Sans", 12, NORMAL, NORMAL, BOLD
         )
 
-    def test_font_sizes(self):
+    def test_font_sizes(self) -> None:
         self.assertFont(
             font("12pt Comic Sans"), "Comic Sans", 12, NORMAL, NORMAL, NORMAL
         )
@@ -326,7 +326,7 @@ class ParseFontTests(TestCase):
         with self.assertRaises(ValueError):
             font("12quatloo Comic Sans")
 
-    def test_font_family(self):
+    def test_font_family(self) -> None:
         self.assertFont(
             font("12pt 'Comic Sans'"), "Comic Sans", 12, NORMAL, NORMAL, NORMAL
         )
@@ -335,7 +335,7 @@ class ParseFontTests(TestCase):
             font('12pt "Comic Sans"'), "Comic Sans", 12, NORMAL, NORMAL, NORMAL
         )
 
-    def test_normal(self):
+    def test_normal(self) -> None:
         self.assertFont(
             font("normal 12pt Comic Sans"), "Comic Sans", 12, NORMAL, NORMAL, NORMAL
         )
@@ -358,7 +358,7 @@ class ParseFontTests(TestCase):
             NORMAL,
         )
 
-    def test_style(self):
+    def test_style(self) -> None:
         self.assertFont(
             font("italic 12pt Comic Sans"), "Comic Sans", 12, ITALIC, NORMAL, NORMAL
         )
@@ -370,7 +370,7 @@ class ParseFontTests(TestCase):
         with self.assertRaises(ValueError):
             font("wiggly small-caps bold 12pt Comic Sans")
 
-    def test_variant(self):
+    def test_variant(self) -> None:
         self.assertFont(
             font("italic small-caps 12pt Comic Sans"),
             "Comic Sans",
@@ -383,7 +383,7 @@ class ParseFontTests(TestCase):
         with self.assertRaises(ValueError):
             font("italic wiggly bold 12pt Comic Sans")
 
-    def test_weight(self):
+    def test_weight(self) -> None:
         self.assertFont(
             font("italic small-caps bold 12pt Comic Sans"),
             "Comic Sans",
@@ -396,7 +396,7 @@ class ParseFontTests(TestCase):
         with self.assertRaises(ValueError):
             font("italic small-caps wiggly 12pt Comic Sans")
 
-    def test_duplicates(self):
+    def test_duplicates(self) -> None:
         with self.assertRaises(ValueError):
             font("oblique italic 12pt Comic Sans")
 
@@ -409,6 +409,6 @@ class ParseFontTests(TestCase):
         with self.assertRaises(ValueError):
             font("bold bold 12pt Comic Sans")
 
-    def test_invaid(self):
+    def test_invaid(self) -> None:
         with self.assertRaises(ValueError):
             font(42)

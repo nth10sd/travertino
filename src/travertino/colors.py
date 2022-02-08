@@ -8,17 +8,19 @@ class Color:
     "A base class for all colorspace representations"
     pass
 
-    def __eq__(self, other):
+    def __eq__(self: object, other: object) -> bool:
         try:
             c1 = self.rgba
             c2 = other.rgba
 
-            return c1.r == c2.r and c1.g == c2.g and c1.b == c2.b and c1.a == c2.a
+            return bool(c1.r == c2.r and c1.g == c2.g and c1.b == c2.b and c1.a == c2.a)
         except AttributeError:
             return False
 
     @classmethod
-    def _validate_between(cls, content_name, value, min_value, max_value):
+    def _validate_between(
+        cls, content_name: str, value: float, min_value: int, max_value: int
+    ) -> None:
         if value < min_value or value > max_value:
             raise ValueError(
                 "{} value should be between {}-{}. Got {}".format(
@@ -27,18 +29,18 @@ class Color:
             )
 
     @classmethod
-    def _validate_partial(cls, content_name, value):
+    def _validate_partial(cls, content_name: str, value: float) -> None:
         cls._validate_between(content_name, value, 0, 1)
 
     @classmethod
-    def _validate_alpha(cls, value):
+    def _validate_alpha(cls, value: float) -> None:
         cls._validate_partial("alpha", value)
 
 
 class rgba(Color):
     "A representation of an RGBA color"
 
-    def __init__(self, r, g, b, a):
+    def __init__(self, r: int, g: float, b: float, a: float) -> None:
         self._validate_rgb("red", r)
         self._validate_rgb("green", g)
         self._validate_rgb("blue", b)
@@ -48,35 +50,35 @@ class rgba(Color):
         self.b = b
         self.a = a
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash(("RGBA-color", self.r, self.g, self.b, self.a))
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"rgba({self.r}, {self.g}, {self.b}, {self.a})"
 
     @classmethod
-    def _validate_rgb(cls, content_name, value):
+    def _validate_rgb(cls, content_name: str, value: float) -> None:
         cls._validate_between(content_name, value, 0, 255)
 
     @property
-    def rgba(self):
+    def rgba(self) -> rgba:
         return self
 
 
 class rgb(rgba):
     "A representation of an RGB color"
 
-    def __init__(self, r, g, b):
+    def __init__(self, r: int, g: float, b: float) -> None:
         super().__init__(r, g, b, 1.0)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"rgb({self.r}, {self.g}, {self.b})"
 
 
 class hsla(Color):
     "A representation of an HSLA color"
 
-    def __init__(self, h, s, l, a=1.0):
+    def __init__(self, h: int, s: float, l: float, a: float = 1.0) -> None:
         self._validate_between("hue", h, 0, 360)
         self._validate_partial("saturation", s)
         self._validate_partial("lightness", l)
@@ -86,14 +88,14 @@ class hsla(Color):
         self.l = l  # NOQA; E741
         self.a = a
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash(("HSLA-color", self.h, self.s, self.l, self.a))
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"hsla({self.h}, {self.s}, {self.l}, {self.a})"
 
     @property
-    def rgba(self):
+    def rgba(self) -> rgba:
         c = (1.0 - abs(2.0 * self.l - 1.0)) * self.s
         h = self.h / 60.0
         x = c * (1.0 - abs(h % 2 - 1.0))
@@ -118,14 +120,14 @@ class hsla(Color):
 class hsl(hsla):
     "A representation of an HSL color"
 
-    def __init__(self, h, s, l):
+    def __init__(self, h: int, s: float, l: float) -> None:
         super().__init__(h, s, l, 1.0)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"hsl({self.h}, {self.s}, {self.l})"
 
 
-def color(value):
+def color(value: Color | str) -> Color | hsl | hsla | rgb | rgba:
     """Parse a color from a value.
 
     Accepts:

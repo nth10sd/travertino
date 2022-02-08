@@ -6,12 +6,12 @@ from travertino.colors import rgb, rgba, hsl, hsla
 
 
 class RGBColorExceptionTests(TestCase):
-    def test_negative_red(self):
+    def test_negative_red(self) -> None:
         self.assertRaisesRegex(
             ValueError, "^red value should be between 0-255. Got -1$", rgb, -1, 120, 10
         )
 
-    def test_too_big_red(self):
+    def test_too_big_red(self) -> None:
         self.assertRaisesRegex(
             ValueError,
             "^red value should be between 0-255. Got 256$",
@@ -21,7 +21,7 @@ class RGBColorExceptionTests(TestCase):
             10,
         )
 
-    def test_negative_green(self):
+    def test_negative_green(self) -> None:
         self.assertRaisesRegex(
             ValueError,
             "^green value should be between 0-255. Got -1$",
@@ -31,7 +31,7 @@ class RGBColorExceptionTests(TestCase):
             10,
         )
 
-    def test_too_big_green(self):
+    def test_too_big_green(self) -> None:
         self.assertRaisesRegex(
             ValueError,
             "^green value should be between 0-255. Got 256$",
@@ -41,12 +41,12 @@ class RGBColorExceptionTests(TestCase):
             10,
         )
 
-    def test_negative_blue(self):
+    def test_negative_blue(self) -> None:
         self.assertRaisesRegex(
             ValueError, "^blue value should be between 0-255. Got -1$", rgb, 120, 10, -1
         )
 
-    def test_too_big_blue(self):
+    def test_too_big_blue(self) -> None:
         self.assertRaisesRegex(
             ValueError,
             "^blue value should be between 0-255. Got 256$",
@@ -58,7 +58,7 @@ class RGBColorExceptionTests(TestCase):
 
 
 class RGBAColorExceptionTests(TestCase):
-    def test_negative_red(self):
+    def test_negative_red(self) -> None:
         self.assertRaisesRegex(
             ValueError,
             "^red value should be between 0-255. Got -1$",
@@ -69,7 +69,7 @@ class RGBAColorExceptionTests(TestCase):
             0.5,
         )
 
-    def test_too_big_red(self):
+    def test_too_big_red(self) -> None:
         self.assertRaisesRegex(
             ValueError,
             "^red value should be between 0-255. Got 256$",
@@ -80,7 +80,7 @@ class RGBAColorExceptionTests(TestCase):
             0.5,
         )
 
-    def test_negative_green(self):
+    def test_negative_green(self) -> None:
         self.assertRaisesRegex(
             ValueError,
             "^green value should be between 0-255. Got -1$",
@@ -91,7 +91,7 @@ class RGBAColorExceptionTests(TestCase):
             0.5,
         )
 
-    def test_too_big_green(self):
+    def test_too_big_green(self) -> None:
         self.assertRaisesRegex(
             ValueError,
             "^green value should be between 0-255. Got 256$",
@@ -102,7 +102,7 @@ class RGBAColorExceptionTests(TestCase):
             0.5,
         )
 
-    def test_negative_blue(self):
+    def test_negative_blue(self) -> None:
         self.assertRaisesRegex(
             ValueError,
             "^blue value should be between 0-255. Got -1$",
@@ -113,7 +113,7 @@ class RGBAColorExceptionTests(TestCase):
             0.5,
         )
 
-    def test_too_big_blue(self):
+    def test_too_big_blue(self) -> None:
         self.assertRaisesRegex(
             ValueError,
             "^blue value should be between 0-255. Got 256$",
@@ -124,7 +124,7 @@ class RGBAColorExceptionTests(TestCase):
             0.5,
         )
 
-    def test_negative_alpha(self):
+    def test_negative_alpha(self) -> None:
         self.assertRaisesRegex(
             ValueError,
             "^alpha value should be between 0-1. Got -0.5$",
@@ -135,7 +135,7 @@ class RGBAColorExceptionTests(TestCase):
             -0.5,
         )
 
-    def test_too_big_alpha(self):
+    def test_too_big_alpha(self) -> None:
         self.assertRaisesRegex(
             ValueError,
             "^alpha value should be between 0-1. Got 1.1",
@@ -148,12 +148,12 @@ class RGBAColorExceptionTests(TestCase):
 
 
 class HSLColorExceptionTests(TestCase):
-    def test_negative_hue(self):
+    def test_negative_hue(self) -> None:
         self.assertRaisesRegex(
             ValueError, "^hue value should be between 0-360. Got -1$", hsl, -1, 0.5, 0.8
         )
 
-    def test_too_big_hue(self):
+    def test_too_big_hue(self) -> None:
         self.assertRaisesRegex(
             ValueError,
             "^hue value should be between 0-360. Got 361$",
@@ -163,7 +163,7 @@ class HSLColorExceptionTests(TestCase):
             0.8,
         )
 
-    def test_negative_saturation(self):
+    def test_negative_saturation(self) -> None:
         self.assertRaisesRegex(
             ValueError,
             "^saturation value should be between 0-1. Got -0.1$",
@@ -173,7 +173,7 @@ class HSLColorExceptionTests(TestCase):
             0.8,
         )
 
-    def test_too_big_saturation(self):
+    def test_too_big_saturation(self) -> None:
         self.assertRaisesRegex(
             ValueError,
             "^saturation value should be between 0-1. Got 1.1$",
@@ -183,7 +183,7 @@ class HSLColorExceptionTests(TestCase):
             0.8,
         )
 
-    def test_negative_lightness(self):
+    def test_negative_lightness(self) -> None:
         self.assertRaisesRegex(
             ValueError,
             "^lightness value should be between 0-1. Got -0.1$",
@@ -193,7 +193,7 @@ class HSLColorExceptionTests(TestCase):
             -0.1,
         )
 
-    def test_too_big_lightness(self):
+    def test_too_big_lightness(self) -> None:
         self.assertRaisesRegex(
             ValueError,
             "^lightness value should be between 0-1. Got 1.1$",
@@ -205,7 +205,7 @@ class HSLColorExceptionTests(TestCase):
 
 
 class HSLAColorExceptionTests(TestCase):
-    def test_negative_hue(self):
+    def test_negative_hue(self) -> None:
         self.assertRaisesRegex(
             ValueError,
             "^hue value should be between 0-360. Got -1$",
@@ -216,7 +216,7 @@ class HSLAColorExceptionTests(TestCase):
             0.5,
         )
 
-    def test_too_big_hue(self):
+    def test_too_big_hue(self) -> None:
         self.assertRaisesRegex(
             ValueError,
             "^hue value should be between 0-360. Got 361$",
@@ -227,7 +227,7 @@ class HSLAColorExceptionTests(TestCase):
             0.5,
         )
 
-    def test_negative_saturation(self):
+    def test_negative_saturation(self) -> None:
         self.assertRaisesRegex(
             ValueError,
             "^saturation value should be between 0-1. Got -0.1$",
@@ -238,7 +238,7 @@ class HSLAColorExceptionTests(TestCase):
             0.5,
         )
 
-    def test_too_big_saturation(self):
+    def test_too_big_saturation(self) -> None:
         self.assertRaisesRegex(
             ValueError,
             "^saturation value should be between 0-1. Got 1.1$",
@@ -249,7 +249,7 @@ class HSLAColorExceptionTests(TestCase):
             0.5,
         )
 
-    def test_negative_lightness(self):
+    def test_negative_lightness(self) -> None:
         self.assertRaisesRegex(
             ValueError,
             "^lightness value should be between 0-1. Got -0.1$",
@@ -260,7 +260,7 @@ class HSLAColorExceptionTests(TestCase):
             0.5,
         )
 
-    def test_too_big_lightness(self):
+    def test_too_big_lightness(self) -> None:
         self.assertRaisesRegex(
             ValueError,
             "^lightness value should be between 0-1. Got 1.1$",
@@ -271,7 +271,7 @@ class HSLAColorExceptionTests(TestCase):
             0.5,
         )
 
-    def test_negative_alpha(self):
+    def test_negative_alpha(self) -> None:
         self.assertRaisesRegex(
             ValueError,
             "^alpha value should be between 0-1. Got -0.1$",
@@ -282,7 +282,7 @@ class HSLAColorExceptionTests(TestCase):
             -0.1,
         )
 
-    def test_too_big_alpha(self):
+    def test_too_big_alpha(self) -> None:
         self.assertRaisesRegex(
             ValueError,
             "^alpha value should be between 0-1. Got 1.1$",

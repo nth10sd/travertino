@@ -4,15 +4,15 @@ from __future__ import annotations
 class at_least:
     "An annotation to wrap around a value to describe that it is a minimum bound"
 
-    def __init__(self, value):
+    def __init__(self, value) -> None:
         self.value = value
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"at least {self.value}"
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         try:
-            return self.value == other.value
+            return bool(self.value == other.value)
         except AttributeError:
             return False
 
@@ -25,14 +25,20 @@ class BaseIntrinsicSize:
     ratio: The height between height and width. width = height * ratio
     """
 
-    def __init__(self, width=None, height=None, ratio=None, layout=None):
+    def __init__(
+        self,
+        width: int | None = None,
+        height: int | None = None,
+        ratio: float | None = None,
+        layout=None,
+    ) -> None:
         self._layout = layout
         self._width = width
         self._height = height
 
-        self._ratio = None
+        self._ratio: float | None = None
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"({self.width}, {self.height})"
 
     @property
@@ -40,7 +46,7 @@ class BaseIntrinsicSize:
         return self._width
 
     @width.setter
-    def width(self, value):
+    def width(self, value) -> None:
         if self._width != value:
             self._width = value
 
@@ -52,7 +58,7 @@ class BaseIntrinsicSize:
         return self._height
 
     @height.setter
-    def height(self, value):
+    def height(self, value) -> None:
         if self._height != value:
             self._height = value
 
@@ -64,7 +70,7 @@ class BaseIntrinsicSize:
         return self._ratio
 
     @ratio.setter
-    def ratio(self, value):
+    def ratio(self, value) -> None:
         if self._ratio != value:
             self._ratio = value
             if self._layout:

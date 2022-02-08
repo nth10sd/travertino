@@ -7,12 +7,12 @@ from travertino.size import BaseIntrinsicSize, at_least
 
 
 class SizeTests(TestCase):
-    def assertSize(self, size, values):
+    def assertSize(self, size, values) -> None:
         self.assertEqual(values[0], size.width)
         self.assertEqual(values[1], size.height)
         self.assertEqual(values[2], size.ratio)
 
-    def setUp(self):
+    def setUp(self) -> None:
         self.maxDiff = None
 
         self.layout = Mock()
@@ -23,15 +23,15 @@ class SizeTests(TestCase):
 
         self.assertSize(self.size, (1, 2, 0.1))
 
-    def test_at_least_repr(self):
+    def test_at_least_repr(self) -> None:
         self.assertEqual(repr(at_least(10)), "at least 10")
 
-    def test_size_repr(self):
+    def test_size_repr(self) -> None:
         self.assertEqual(repr(self.size), "(1, 2)")
         self.size.width = at_least(10)
         self.assertEqual(repr(self.size), "(at least 10, 2)")
 
-    def test_set_width(self):
+    def test_set_width(self) -> None:
         self.size.width = 10
         self.assertSize(self.size, (10, 2, 0.1))
 
@@ -55,7 +55,7 @@ class SizeTests(TestCase):
         # Layout has been dirtied.
         self.layout.dirty.assert_called_once_with(intrinsic_width=20)
 
-    def test_set_height(self):
+    def test_set_height(self) -> None:
         self.size.height = 10
         self.assertSize(self.size, (1, 10, 0.1))
 
@@ -79,7 +79,7 @@ class SizeTests(TestCase):
         # Layout has been dirtied.
         self.layout.dirty.assert_called_once_with(intrinsic_height=20)
 
-    def test_set_min_width(self):
+    def test_set_min_width(self) -> None:
         self.size.width = at_least(10)
         self.assertSize(self.size, (at_least(10), 2, 0.1))
 
@@ -113,7 +113,7 @@ class SizeTests(TestCase):
         # Layout has been dirtied.
         self.layout.dirty.assert_called_once_with(intrinsic_width=at_least(20))
 
-    def test_set_min_height(self):
+    def test_set_min_height(self) -> None:
         self.size.height = at_least(10)
         self.assertSize(self.size, (1, at_least(10), 0.1))
 
@@ -147,7 +147,7 @@ class SizeTests(TestCase):
         # Layout has been dirtied.
         self.layout.dirty.assert_called_once_with(intrinsic_height=at_least(20))
 
-    def test_set_ratio(self):
+    def test_set_ratio(self) -> None:
         self.size.ratio = 0.5
         self.assertSize(self.size, (1, 2, 0.5))
 

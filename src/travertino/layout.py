@@ -8,7 +8,7 @@ class Viewport:
     pixel density of the viewport.
     """
 
-    def __init__(self, width=0, height=0, dpi=None):
+    def __init__(self, width: int = 0, height: int = 0, dpi: int | None = None) -> None:
         self.width = width
         self.height = height
         self.dpi = dpi
@@ -44,11 +44,11 @@ class BaseBox:
 
     """
 
-    def __init__(self, node):
+    def __init__(self, node) -> None:
         self.node = node
         self._reset()
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "<{} ({}x{} @ {},{})>".format(
             self.__class__.__name__,
             self.content_width,
@@ -57,7 +57,7 @@ class BaseBox:
             self.absolute_content_top,
         )
 
-    def _reset(self):
+    def _reset(self) -> None:
         # Some properties describing whether this node exists in
         # layout *at all*.
         self.visible = True
@@ -84,11 +84,11 @@ class BaseBox:
     # Origin handling
     ######################################################################
     @property
-    def _origin_top(self):
+    def _origin_top(self) -> int:
         return self.__origin_top
 
     @_origin_top.setter
-    def _origin_top(self, value):
+    def _origin_top(self, value: int) -> None:
         if value != self.__origin_top:
             self.__origin_top = value
             for child in self.node.children:
@@ -96,11 +96,11 @@ class BaseBox:
                     child.layout._origin_top = self.absolute_content_top
 
     @property
-    def _origin_left(self):
+    def _origin_left(self) -> int:
         return self.__origin_left
 
     @_origin_left.setter
-    def _origin_left(self, value):
+    def _origin_left(self, value: int) -> None:
         if value != self.__origin_left:
             self.__origin_left = value
             for child in self.node.children:
@@ -108,33 +108,33 @@ class BaseBox:
                     child.layout._origin_left = self.absolute_content_left
 
     @property
-    def width(self):
+    def width(self) -> int:
         return self._content_left + self.content_width + self.content_right
 
     @property
-    def height(self):
+    def height(self) -> int:
         return self._content_top + self.content_height + self.content_bottom
 
     ######################################################################
     # Content box properties
     ######################################################################
     @property
-    def content_top(self):
+    def content_top(self) -> int:
         return self._content_top
 
     @content_top.setter
-    def content_top(self, value):
+    def content_top(self, value: int) -> None:
         self._content_top = value
         for child in self.node.children:
             if child.layout:
                 child.layout._origin_top = self.absolute_content_top
 
     @property
-    def content_left(self):
+    def content_left(self) -> int:
         return self._content_left
 
     @content_left.setter
-    def content_left(self, value):
+    def content_left(self, value: int) -> None:
         self._content_left = value
         for child in self.node.children:
             if child.layout:
@@ -145,17 +145,17 @@ class BaseBox:
     ######################################################################
 
     @property
-    def absolute_content_top(self):
+    def absolute_content_top(self) -> int:
         return self.__origin_top + self._content_top
 
     @property
-    def absolute_content_right(self):
+    def absolute_content_right(self) -> int:
         return self.__origin_left + self._content_left + self.content_width
 
     @property
-    def absolute_content_bottom(self):
+    def absolute_content_bottom(self) -> int:
         return self.__origin_top + self._content_top + self.content_height
 
     @property
-    def absolute_content_left(self):
+    def absolute_content_left(self) -> int:
         return self.__origin_left + self._content_left

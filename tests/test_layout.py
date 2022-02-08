@@ -15,21 +15,21 @@ class Style(BaseStyle):
     class Box(BaseBox):
         pass
 
-    def layout(self, root, viewport):
+    def layout(self, root, viewport: Viewport) -> None:
         # A simple layout scheme that allocats twice the viewport size.
         root.layout.content_width = viewport.width * 2
         root.layout.content_height = viewport.height * 2
 
 
 class ViewportTests(TestCase):
-    def test_default(self):
+    def test_default(self) -> None:
         viewport = Viewport()
 
         self.assertEqual(viewport.width, 0)
         self.assertEqual(viewport.height, 0)
         self.assertEqual(viewport.dpi, None)
 
-    def test_constructor(self):
+    def test_constructor(self) -> None:
         viewport = Viewport(width=640, height=480, dpi=96)
 
         self.assertEqual(viewport.width, 640)
@@ -38,7 +38,7 @@ class ViewportTests(TestCase):
 
 
 class BoxTests(TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.maxDiff = None
 
         self.grandchild1_1 = Node(style=Style())
@@ -57,7 +57,7 @@ class BoxTests(TestCase):
         self.node.layout.content_width = 10
         self.node.layout.content_height = 16
 
-    def assertLayout(self, box, expected):
+    def assertLayout(self, box: BaseBox, expected: dict[str, tuple[int, ...]]) -> None:
         actual = {
             "origin": (box._origin_left, box._origin_top),
             "size": (box.width, box.height),
@@ -77,12 +77,12 @@ class BoxTests(TestCase):
         }
         self.assertEqual(actual, expected)
 
-    def test_repr(self):
+    def test_repr(self) -> None:
         self.node.layout._origin_top = 1
         self.node.layout._origin_left = 2
         self.assertEqual(repr(self.node.layout), "<Box (10x16 @ 2,1)>")
 
-    def test_initial(self):
+    def test_initial(self) -> None:
         # Core attributes have been stored
         self.assertLayout(
             self.node.layout,
@@ -95,7 +95,7 @@ class BoxTests(TestCase):
             },
         )
 
-    def test_set_content_top(self):
+    def test_set_content_top(self) -> None:
         self.node.layout.content_top = 5
 
         self.assertLayout(
@@ -123,7 +123,7 @@ class BoxTests(TestCase):
             },
         )
 
-    def test_set_content_left(self):
+    def test_set_content_left(self) -> None:
         self.node.layout.content_left = 5
 
         self.assertLayout(
@@ -151,7 +151,7 @@ class BoxTests(TestCase):
             },
         )
 
-    def test_set_content_width(self):
+    def test_set_content_width(self) -> None:
         self.node.layout.content_width = 5
 
         self.assertLayout(
@@ -179,7 +179,7 @@ class BoxTests(TestCase):
             },
         )
 
-    def test_set_content_height(self):
+    def test_set_content_height(self) -> None:
         self.node.layout.content_height = 5
 
         self.assertLayout(
@@ -207,7 +207,7 @@ class BoxTests(TestCase):
             },
         )
 
-    def test_descendent_offsets(self):
+    def test_descendent_offsets(self) -> None:
         self.node.layout.content_top = 7
         self.node.layout.content_left = 8
 
@@ -326,7 +326,7 @@ class BoxTests(TestCase):
             },
         )
 
-    def test_absolute_equalities(self):
+    def test_absolute_equalities(self) -> None:
         # Move the box around and set some borders.
         self.node.layout.origin_top = 100
         self.node.layout.origin_left = 200

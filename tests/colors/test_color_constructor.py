@@ -2,42 +2,42 @@ from __future__ import annotations
 
 from unittest import TestCase
 
-from travertino.colors import color, hsl, hsla, rgb, rgba
+from travertino.colors import Color, color, hsl, hsla, rgb, rgba
 
 
 class ColorConstructorTests(TestCase):
-    def assertEqualColor(self, a, b):
+    def assertEqualColor(self, a: hsl | hsla, b: rgb | rgba) -> None:
         self.assertEqual(a.rgba.r, b.rgba.r)
         self.assertEqual(a.rgba.g, b.rgba.g)
         self.assertEqual(a.rgba.b, b.rgba.b)
         self.assertEqual(a.rgba.a, b.rgba.a)
 
-    def test_rgb_repr(self):
+    def test_rgb_repr(self) -> None:
         self.assertEqual(repr(rgb(10, 20, 30)), "rgb(10, 20, 30)")
 
-    def test_rgba_repr(self):
+    def test_rgba_repr(self) -> None:
         self.assertEqual(repr(rgba(10, 20, 30, 0.5)), "rgba(10, 20, 30, 0.5)")
 
-    def test_hsl_repr(self):
+    def test_hsl_repr(self) -> None:
         self.assertEqual(repr(hsl(10, 0.2, 0.3)), "hsl(10, 0.2, 0.3)")
 
-    def test_hsla_repr(self):
+    def test_hsla_repr(self) -> None:
         self.assertEqual(repr(hsla(10, 0.2, 0.3, 0.5)), "hsla(10, 0.2, 0.3, 0.5)")
 
-    def test_rgb_hash(self):
+    def test_rgb_hash(self) -> None:
         self.assertEqual(hash(rgb(10, 20, 30)), hash(rgb(10, 20, 30)))
         self.assertNotEqual(hash(rgb(10, 20, 30)), hash(rgb(30, 20, 10)))
 
-    def test_rgba_hash(self):
+    def test_rgba_hash(self) -> None:
         self.assertEqual(hash(rgba(10, 20, 30, 0.5)), hash(rgba(10, 20, 30, 0.5)))
         self.assertEqual(hash(rgba(10, 20, 30, 1.0)), hash(rgb(10, 20, 30)))
         self.assertNotEqual(hash(rgb(10, 20, 30)), hash(rgb(30, 20, 10)))
 
-    def test_hsl_hash(self):
+    def test_hsl_hash(self) -> None:
         self.assertEqual(hash(hsl(10, 0.2, 0.3)), hash(hsl(10, 0.2, 0.3)))
         self.assertNotEqual(hash(hsl(10, 0.3, 0.2)), hash(hsl(10, 0.2, 0.3)))
 
-    def test_hsla_hash(self):
+    def test_hsla_hash(self) -> None:
         self.assertEqual(hash(hsla(10, 0.2, 0.3, 0.5)), hash(hsla(10, 0.2, 0.3, 0.5)))
         self.assertEqual(hash(hsla(10, 0.2, 0.3, 1.0)), hash(hsl(10, 0.2, 0.3)))
         self.assertNotEqual(
@@ -46,28 +46,28 @@ class ColorConstructorTests(TestCase):
 
         self.assertNotEqual(hash(hsla(10, 0, 0, 0.5)), hash(rgba(10, 0, 0, 0.5)))
 
-    def test_hsl_blacks(self):
+    def test_hsl_blacks(self) -> None:
         self.assertEqualColor(hsl(0, 0.0, 0.0), rgb(0x00, 0x00, 0x00))
         self.assertEqualColor(hsl(60, 0.0, 0.0), rgb(0x00, 0x00, 0x00))
         self.assertEqualColor(hsl(180, 0.0, 0.0), rgb(0x00, 0x00, 0x00))
         self.assertEqualColor(hsl(240, 0.0, 0.0), rgb(0x00, 0x00, 0x00))
         self.assertEqualColor(hsl(360, 0.0, 0.0), rgb(0x00, 0x00, 0x00))
 
-    def test_hsl_whites(self):
+    def test_hsl_whites(self) -> None:
         self.assertEqualColor(hsl(0, 0.0, 1.0), rgb(0xFF, 0xFF, 0xFF))
         self.assertEqualColor(hsl(60, 0.0, 1.0), rgb(0xFF, 0xFF, 0xFF))
         self.assertEqualColor(hsl(180, 0.0, 1.0), rgb(0xFF, 0xFF, 0xFF))
         self.assertEqualColor(hsl(240, 0.0, 1.0), rgb(0xFF, 0xFF, 0xFF))
         self.assertEqualColor(hsl(360, 0.0, 1.0), rgb(0xFF, 0xFF, 0xFF))
 
-    def test_hsl_grays(self):
+    def test_hsl_grays(self) -> None:
         self.assertEqualColor(hsl(0, 0.0, 0.2), rgb(0x33, 0x33, 0x33))
         self.assertEqualColor(hsl(0, 0.0, 0.4), rgb(0x66, 0x66, 0x66))
         self.assertEqualColor(hsl(0, 0.0, 0.5), rgb(0x80, 0x80, 0x80))
         self.assertEqualColor(hsl(0, 0.0, 0.6), rgb(0x99, 0x99, 0x99))
         self.assertEqualColor(hsl(0, 0.0, 0.8), rgb(0xCC, 0xCC, 0xCC))
 
-    def test_hsl_primaries(self):
+    def test_hsl_primaries(self) -> None:
         self.assertEqualColor(hsl(0, 1.0, 0.5), rgb(0xFF, 0x00, 0x00))
         self.assertEqualColor(hsl(60, 1.0, 0.5), rgb(0xFF, 0xFF, 0x00))
         self.assertEqualColor(hsl(120, 1.0, 0.5), rgb(0x00, 0xFF, 0x00))
@@ -76,7 +76,7 @@ class ColorConstructorTests(TestCase):
         self.assertEqualColor(hsl(300, 1.0, 0.5), rgb(0xFF, 0x00, 0xFF))
         self.assertEqualColor(hsl(360, 1.0, 0.5), rgb(0xFF, 0x00, 0x00))
 
-    def test_hsl_muted(self):
+    def test_hsl_muted(self) -> None:
         self.assertEqualColor(hsl(0, 0.25, 0.25), rgb(0x50, 0x30, 0x30))
         self.assertEqualColor(hsl(60, 0.25, 0.25), rgb(0x50, 0x50, 0x30))
         self.assertEqualColor(hsl(120, 0.25, 0.25), rgb(0x30, 0x50, 0x30))
@@ -109,7 +109,7 @@ class ColorConstructorTests(TestCase):
         self.assertEqualColor(hsl(300, 0.75, 0.25), rgb(0x70, 0x10, 0x70))
         self.assertEqualColor(hsl(360, 0.75, 0.25), rgb(0x70, 0x10, 0x10))
 
-    def test_hsl_alpha(self):
+    def test_hsl_alpha(self) -> None:
         self.assertEqualColor(hsla(60, 0.0, 0.0, 0.3), rgba(0x00, 0x00, 0x00, 0.3))
         self.assertEqualColor(hsla(60, 0.0, 1.0, 0.3), rgba(0xFF, 0xFF, 0xFF, 0.3))
         self.assertEqualColor(hsla(60, 1.0, 0.5, 0.3), rgba(0xFF, 0xFF, 0x00, 0.3))
@@ -120,27 +120,33 @@ class ColorConstructorTests(TestCase):
 
 
 class ParseColorTests(TestCase):
-    def assertEqualHSL(self, value, expected):
+    def assertEqualHSL(self, value: hsl | str, expected: hsl | hsla) -> None:
         # Nothing fancy - a color is equal if the attributes are all the same
         actual = color(value)
+        assert not isinstance(actual, Color)
+        assert not isinstance(actual, rgb)
+        assert not isinstance(actual, rgba)
         self.assertEqual(actual.h, expected.h)
         self.assertEqual(actual.s, expected.s)
         self.assertEqual(actual.l, expected.l)
         self.assertAlmostEqual(actual.a, expected.a, places=3)
 
-    def assertEqualColor(self, value, expected):
+    def assertEqualColor(self, value: rgba | str, expected: rgb | rgba) -> None:
         # Nothing fancy - a color is equal if the attributes are all the same
         actual = color(value)
+        assert not isinstance(actual, Color)
+        assert not isinstance(actual, hsl)
+        assert not isinstance(actual, hsla)
         self.assertEqual(actual.r, expected.r)
         self.assertEqual(actual.g, expected.g)
         self.assertEqual(actual.b, expected.b)
         self.assertAlmostEqual(actual.a, expected.a, places=3)
 
-    def test_noop(self):
+    def test_noop(self) -> None:
         self.assertEqualColor(rgba(1, 2, 3, 0.5), rgba(1, 2, 3, 0.5))
         self.assertEqualHSL(hsl(1, 0.2, 0.3), hsl(1, 0.2, 0.3))
 
-    def test_rgb(self):
+    def test_rgb(self) -> None:
         self.assertEqualColor("rgb(1,2,3)", rgb(1, 2, 3))
         self.assertEqualColor("rgb(1, 2, 3)", rgb(1, 2, 3))
         self.assertEqualColor("rgb( 1 , 2 , 3)", rgb(1, 2, 3))
@@ -167,7 +173,7 @@ class ParseColorTests(TestCase):
         with self.assertRaises(ValueError):
             color("rgb(10, 20, 30, 0.5)")
 
-    def test_rgba(self):
+    def test_rgba(self) -> None:
         self.assertEqualColor("rgba(1,2,3,0.5)", rgba(1, 2, 3, 0.5))
         self.assertEqualColor("rgba(1, 2, 3, 0.5)", rgba(1, 2, 3, 0.5))
         self.assertEqualColor("rgba( 1 , 2 , 3 , 0.5)", rgba(1, 2, 3, 0.5))
@@ -197,7 +203,7 @@ class ParseColorTests(TestCase):
         with self.assertRaises(ValueError):
             color("rgba(10, 20, 30, 0.5, 5)")
 
-    def test_hsl(self):
+    def test_hsl(self) -> None:
         self.assertEqualHSL("hsl(1,20%,30%)", hsl(1, 0.2, 0.3))
         self.assertEqualHSL("hsl(1, 20%, 30%)", hsl(1, 0.2, 0.3))
         self.assertEqualHSL("hsl( 1, 20% , 30%)", hsl(1, 0.2, 0.3))
@@ -217,7 +223,7 @@ class ParseColorTests(TestCase):
         with self.assertRaises(ValueError):
             color("hsl(1, 20%, 30%, 0.5)")
 
-    def test_hsla(self):
+    def test_hsla(self) -> None:
         self.assertEqualHSL("hsla(1,20%,30%,0.5)", hsla(1, 0.2, 0.3, 0.5))
         self.assertEqualHSL("hsla(1, 20%, 30%, 0.5)", hsla(1, 0.2, 0.3, 0.5))
         self.assertEqualHSL("hsla( 1, 20% , 30% , 0.5)", hsla(1, 0.2, 0.3, 0.5))
@@ -240,7 +246,7 @@ class ParseColorTests(TestCase):
         with self.assertRaises(ValueError):
             color("hsla(1, 20%, 30%, 0.5, 5)")
 
-    def test_named_color(self):
+    def test_named_color(self) -> None:
         self.assertEqualColor("Red", rgb(0xFF, 0, 0))
         self.assertEqualColor("RED", rgb(0xFF, 0, 0))
         self.assertEqualColor("red", rgb(0xFF, 0, 0))

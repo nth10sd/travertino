@@ -15,17 +15,17 @@ class Style(BaseStyle):
     class Box(BaseBox):
         pass
 
-    def layout(self, root, viewport):
+    def layout(self, root, viewport) -> None:
         # A simple layout scheme that allocats twice the viewport size.
         root.layout.content_width = viewport.width * 2
         root.layout.content_height = viewport.height * 2
 
 
 class NodeTests(TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.maxDiff = None
 
-    def test_create_leaf(self):
+    def test_create_leaf(self) -> None:
         "A leaf can be created"
         style = Style()
         leaf = Node(style=style)
@@ -44,7 +44,7 @@ class NodeTests(TestCase):
         with self.assertRaises(ValueError):
             leaf.add(child)
 
-    def test_create_node(self):
+    def test_create_node(self) -> None:
         "A node can be created with children"
         style = Style()
 
@@ -98,15 +98,15 @@ class NodeTests(TestCase):
         self.assertEqual(child3.parent, node)
         self.assertEqual(child3.root, new_node)
 
-    def test_refresh(self):
+    def test_refresh(self) -> None:
         "The layout can be refreshed, and the applicator invoked"
         # Define an applicator that tracks the node being rendered and it's size
         class Applicator:
-            def __init__(self, node):
+            def __init__(self, node) -> None:
                 self.tasks = []
                 self.node = node
 
-            def set_bounds(self):
+            def set_bounds(self) -> None:
                 self.tasks.append(
                     (
                         self.node,
@@ -150,7 +150,7 @@ class NodeTests(TestCase):
         self.assertEqual(child2.applicator.tasks, [])
         self.assertEqual(child3.applicator.tasks, [])
 
-    def test_add(self):
+    def test_add(self) -> None:
         "Nodes can be added as children to another node"
 
         style = Style()
@@ -163,7 +163,7 @@ class NodeTests(TestCase):
         self.assertEqual(child.parent, node)
         self.assertEqual(child.root, node.root)
 
-    def test_insert(self):
+    def test_insert(self) -> None:
         "Node can be inserted at a specific position as a child"
 
         style = Style()
@@ -183,7 +183,7 @@ class NodeTests(TestCase):
 
         self.assertEqual(node.children.index(child4), index)
 
-    def test_remove(self):
+    def test_remove(self) -> None:
         "Children can be removed from node"
 
         style = Style()
@@ -198,7 +198,7 @@ class NodeTests(TestCase):
         self.assertEqual(child1.parent, None)
         self.assertEqual(child1.root, child1)
 
-    def test_clear(self):
+    def test_clear(self) -> None:
         "Node can be inserted at a specific position as a child"
         style = Style()
         children = [Node(style=style), Node(style=style), Node(style=style)]

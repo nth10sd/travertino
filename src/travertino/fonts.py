@@ -14,7 +14,9 @@ from .constants import (
 
 
 class Font:
-    def __init__(self, family, size, style=NORMAL, variant=NORMAL, weight=NORMAL):
+    def __init__(
+        self, family, size, style=NORMAL, variant=NORMAL, weight=NORMAL
+    ) -> None:
         if (family[0] == "'" and family[-1] == "'") or (
             family[0] == '"' and family[-1] == '"'
         ):
@@ -36,12 +38,12 @@ class Font:
         self.variant = variant if variant in FONT_VARIANTS else NORMAL
         self.weight = weight if weight in FONT_WEIGHTS else NORMAL
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash(
             ("FONT", self.family, self.size, self.style, self.variant, self.weight)
         )
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "<Font: {}{}{}{} {}>".format(
             "" if self.style is NORMAL else (self.style + " "),
             "" if self.variant is NORMAL else (self.variant + " "),
@@ -61,7 +63,7 @@ class Font:
             and self.weight == other.weight
         )
 
-    def normal_style(self):
+    def normal_style(self) -> Font:
         "Generate a normal style version of this font"
         return Font(
             self.family,
@@ -71,7 +73,7 @@ class Font:
             weight=self.weight,
         )
 
-    def italic(self):
+    def italic(self) -> Font:
         "Generate an italic version of this font"
         return Font(
             self.family,
@@ -81,7 +83,7 @@ class Font:
             weight=self.weight,
         )
 
-    def oblique(self):
+    def oblique(self) -> Font:
         "Generate an oblique version of this font"
         return Font(
             self.family,
@@ -91,13 +93,13 @@ class Font:
             weight=self.weight,
         )
 
-    def normal_variant(self):
+    def normal_variant(self) -> Font:
         "Generate a normal variant of this font"
         return Font(
             self.family, self.size, style=self.style, variant=NORMAL, weight=self.weight
         )
 
-    def small_caps(self):
+    def small_caps(self) -> Font:
         "Generate a small-caps variant of this font"
         return Font(
             self.family,
@@ -107,7 +109,7 @@ class Font:
             weight=self.weight,
         )
 
-    def normal_weight(self):
+    def normal_weight(self) -> Font:
         "Generate a normal weight version of this font"
         return Font(
             self.family,
@@ -117,14 +119,14 @@ class Font:
             weight=NORMAL,
         )
 
-    def bold(self):
+    def bold(self) -> Font:
         "Generate a bold version of this font"
         return Font(
             self.family, self.size, style=self.style, variant=self.variant, weight=BOLD
         )
 
 
-def font(value):
+def font(value: Font | str) -> Font:
     """Parse a font from a string.
 
     Accepts:

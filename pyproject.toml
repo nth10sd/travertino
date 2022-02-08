@@ -5,6 +5,10 @@ requires = [
 ]
 build-backend = "setuptools.build_meta"
 
+[tool.mypy]
+show_error_codes = true
+strict = true
+
 [tool.towncrier]
 directory = "changes"
 package = "travertino"

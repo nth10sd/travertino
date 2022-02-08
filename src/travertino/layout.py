@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+
 class Viewport:
     """
     A viewport is a description of surface onto which content will be

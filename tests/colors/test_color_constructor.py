@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from unittest import TestCase
 
 from travertino.colors import color, hsl, hsla, rgb, rgba

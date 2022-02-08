@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # flake8: NOQA: F405
 from .constants import *
 

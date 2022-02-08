@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+
 class at_least:
     "An annotation to wrap around a value to describe that it is a minimum bound"
 
